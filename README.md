@@ -3,7 +3,7 @@ First project in Digital Business Line Training at Obechar 2023. The project aim
 
 ## Prerequisites
 Before working on the project, you need to have a good understanding about git. Belows are the things you need to do first:
-- Fork this repo to your personal repositories.
+- Fork this repo to your team's repository.
 - Learn to use basic commands of git including `git clone`, `git add`, `git commit`, `git push`.
 - Learn the basic workflow of a git (especialy common branches and their usages) and supported commands for this. The commands are `git checkout`, `git merge`, `git rebase`, `git branch`.
 - Learn to track and control your commits with `git status`, `git reset --hard`, `git reset --soft`, `git diff`.
