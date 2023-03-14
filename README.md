@@ -14,7 +14,7 @@ Next, download an IDE to support your coding. The recommended is VSCode. If you 
 In Maze Runner, your team will try to develop a bot which try to find the shortest path in a maze to collect coins. At the end of the project, we will host a battle between two bots of two teams to find the winner. Try your best!
 
 ### maze_metadata.json
-The map of the maze will be respresent in a simple .json file. This file will contain the metadata (well, if you don't know what is this, search it!) and from this file, all other components can understand and interact with the maze. The format of the file is like this example:
+The map of the maze is respresented in a simple .json file. This file contains the metadata (well, if you don't know what is this, search it!) and from this file, all other components can understand and interact with the maze. The format of the file is like this example:
 ```json
 {
     "width": 10,
@@ -43,32 +43,40 @@ So, from the above example, a maze may looks like:
 ************
 ```
 REMEMBER, this is just a simple example. The real one is very challenging!
+
 ### bot.py
 
-After having the map represented in .json file; here comes the interesting part, this component (called bot.py) will read the metadata and indicate the next action. Here is an example of the function:
+Let's writy bot.py which represents as your bot and reads the **maze_metadata.json** and writes the next action to a file named `action.txt` iteratively. The command line to run bot.py in terminal must follow this:
 
 ```
-python bot.py -i maze_metadata.json
+python bot.py -i maze_metadata.json -o action.txt
 ```
+Here, the `-i` is an argument which defines the input file, and `-o` defines the output file.
 
-The bot must only send 1 action for each step and this action must be either `left`, `right`, `up` or `down`. The output action is represented by an **action.txt** file. For example, with the given metadata, the bot might want to go left and the action.txt will be like:
+The bot must only send 1 action for each step, after only when the position of the bot in **maze_metadata.json** is changed. The action must be either `left`, `right`, `up` or `down`. The output action is represented by an **action.txt** file. For example, with the given metadata, the bot might want to go left and the action.txt will be like:
 
 ``` txt
   left
+  up
+  left
+  down
+  right
 ```
+Each line is equivalent with an action at a step.
 
-The goal of this project is to minimize the number of action required to reach the coin. So try your best with the algorithms!
+Try your best to minimize the number of actions required to reach the coin in a short inference time!
 
-Here are some hints for building this component: **BFS**, **DFS**, **Dijkstra**    
+*Keywords*: **argparse** , **BFS**, **DFS**, **Dijkstra**   
 
 ### maze_updater.py
 
-This component will receive the **action.txt** file and commit the action by adjust the `bot` parameter in **maze_metadata.json** file. The function format is like this example:
+This component receives the **action.txt** file and commits the action by update the `bot` in **maze_metadata.json** file. The command line to run **maze_updater.py** in terminal must follow this:
 ```
-python maze_updater.py -i action.txt
+python maze_updater.py -i action.txt -o maze_metadata.json
 ```
+Here, the `-i` is an argument which defines the input file, and `-o` defines the output file.
 
-The loop of reading metadata, indicating action and updating metadata keeps the bot moving continuously in the maze until the bot eats the coin. For instance, with the given metadata and action, the output of this function is like follow:
+The loop of reading metadata, indicating action and updating metadata keeps the bot moving continuously in the maze until the bot get the coin. For instance, in the first step, with the given **maze_metadata.json** and **action.txt**, **maze_metadata.json** is updated like follow:
 ```json
 {
     "width": 10,
@@ -78,7 +86,7 @@ The loop of reading metadata, indicating action and updating metadata keeps the 
     "coin": [0, 0]
 }
 ```
-But the game does not end there, this function will also update the new position of the coin in the maze when the last coin disappear by adjusting the `coin` parameter. So continue with the example, when the `bot` reach `[0;0]` then `coin` will be adjusted randomly:
+But the game does not end there, this function will also update the new position of the coin in the maze when the last coin disappear by generating the `coin`'s position randomly. So continue with the example, when the `bot` reach `[0;0]` then `coin` could be:
 ```json
 {
     "width": 10,
@@ -92,5 +100,3 @@ But the game does not end there, this function will also update the new position
 And the game goes on and on.
 
 We look forward to seeing not only your amzing results and a thrilling race but also your development through this very first project. Good luck!
-
-**_DO YOUR BEST, THE REST WILL COME!_**
