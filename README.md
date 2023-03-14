@@ -46,7 +46,7 @@ REMEMBER, this is just a simple example. The real one is very challenging!
 
 ### bot.py
 
-Let's writy bot.py which represents as your bot and reads the **maze_metadata.json** and writes the next action to a file named `action.txt` iteratively. The command line to run bot.py in terminal must follow this:
+Let's develop bot.py which represents as your bot. What it does is to read the **maze_metadata.json** and write the next action to a file named `action.txt` iteratively. The command line to run bot.py in terminal must follow this:
 
 ```
 python bot.py -i maze_metadata.json -o action.txt
