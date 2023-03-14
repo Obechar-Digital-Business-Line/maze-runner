@@ -99,4 +99,55 @@ But the game does not end there, this function will also update the new position
 
 And the game goes on and on.
 
+### maze_displayer.py
+We can not just run our software without any validation. One of the best way is to develop a user-friendly UI for it. Design your own UI for maze runner and implement it withih **maze_displayer.py**. A good UI should have following:
+- Show the structure of the map.
+- Show the position of the coin and the bot.
+- Show the current step of the process.
+
+For example, a simple UI could be like this:
+```
+Step 0
+************
+*o*        *
+* *        *
+* *        *
+*          *
+*          *
+*        X *
+*          *
+*          *
+*          *
+*          *
+************
+Step 1
+************
+*o*        *
+* *        *
+* *        *
+*          *
+*          *
+*       X  *
+*          *
+*          *
+*          *
+*          *
+************
+Step 2
+************
+*o*        *
+* *        *
+* *        *
+*          *
+*          *
+*      X   *
+*          *
+*          *
+*          *
+*          *
+************
+```
+*Keywords*: **pygame**, **tkinter**
+
+---
 We look forward to seeing not only your amzing results and a thrilling race but also your development through this very first project. Good luck!
