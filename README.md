@@ -53,7 +53,7 @@ python bot.py -i maze_metadata.json -o action.txt
 ```
 Here, the `-i` is an argument which defines the input file, and `-o` defines the output file.
 
-The bot must only send 1 action for each step, after only when the position of the bot in **maze_metadata.json** is changed. The action must be either `left`, `right`, `up` or `down`. The output action is represented by an **action.txt** file. For example, with the given metadata, the bot might want to go left and the action.txt will be like:
+The bot must only send 1 action for each step, after only when the position of the bot in **maze_metadata.json** is changed. The action must be either `left`, `right`, `up` or `down`. The output action is represented by an **action.txt** file. For example, with the given metadata, the bot might plan a path to go left, up, left, down, right and so on. The action.txt in this case will be like:
 
 ``` txt
   left
@@ -62,7 +62,7 @@ The bot must only send 1 action for each step, after only when the position of t
   down
   right
 ```
-Each line is equivalent with an action at a step.
+Each line is equivalent to an action at each step.
 
 Try your best to minimize the number of actions required to reach the coin in a short inference time!
 
