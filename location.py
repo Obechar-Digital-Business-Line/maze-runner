@@ -1,3 +1,6 @@
+import math
+
+
 class Location:
     x = None
     y = None
@@ -12,3 +15,7 @@ class Location:
     @staticmethod
     def sort(locations):
         return sorted(locations, key=lambda loc: (loc.x, loc.y))
+
+    @staticmethod
+    def heuristic(a, b) -> float:
+        return math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)

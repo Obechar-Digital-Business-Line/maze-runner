@@ -1,5 +1,10 @@
+import heapq
 import json
+import math
+from heapq import heappop
+from typing import List
 
+import location
 from location import Location
 
 
@@ -7,8 +12,8 @@ class Map:
     width = None
     height = None
     obstacles = None
-    bot = None
-    coin = None
+    bot: Location = None
+    coin: Location = None
     locations = None
     map = None
 
@@ -23,7 +28,7 @@ class Map:
             data = json.load(file)
             self.width = data['width']
             self.height = data['height']
-            self.obstacles = [Location(*loc) for loc in data['obstacles']]
+            self.obstacles = [Location(*loc) for loc in sorted(data['obstacles'], key=lambda x: (x[0], x[1]))]
             self.bot = Location(*data['bot'])
             self.coin = Location(*data['coin'])
             self.obstacles = Location.sort(self.obstacles)
@@ -35,24 +40,48 @@ class Map:
 
     def loadMap(self):
         self.map = [[' ' for _ in range(self.width)] for _ in range(self.height)]
-        for l in self.obstacles:
-            self.map[l.x][l.y] += '*'
+        for ll in self.obstacles:
+            self.map[ll.x][ll.y] = '*'
         coin = self.coin
-        self.map[coin.x][coin.y] += 'o'
+        self.map[coin.x][coin.y] = 'o'
         bot = self.bot
-        self.map[bot.x][bot.y] += 'X'
+        self.map[bot.x][bot.y] = 'X'
 
     def printMap(self):
         print('*' * (self.width + 2))
-        for row in self.map:
-            print('*', end="")
-            for loc in row:
-                if loc != " ":
-                    print(str(loc).lstrip(), end="")
-                else:
-                    print(str(loc), end="")
-            print('*', end="")
+        for i in range(self.height):
+            print('*', end='')
+            for j in range(self.width):
+                print('{}'.format(self.map[i][j]), end='')
+            print('*', end='')
             print()
-
         print('*' * (self.width + 2))
-# create a Map object and print its properties
+    # create a Map object and print its properties
+
+    def moveBot(self, loc: Location):
+        if self.map[loc.x][loc.y] == ' ':
+            self.map[loc.x][loc.y] = 'X'
+            self.map[self.bot.x][self.bot.y] = ' '
+            self.bot = loc
+            # self.loadMap()
+
+    def left(self):
+        if self.bot.y > 0:
+            self.moveBot(Location(self.bot.x, self.bot.y - 1))
+
+    def right(self):
+        if self.bot.y < self.height - 1:
+            self.moveBot(Location(self.bot.x, self.bot.y + 1))
+
+    def up(self):
+        if self.bot.x > 0:
+            self.moveBot(Location(self.bot.x - 1, self.bot.y))
+
+    def down(self):
+        if self.bot.x < self.width - 1:
+            self.moveBot(Location(self.bot.x + 1, self.bot.y))
+
+    # A* algorithm
+
+
+
