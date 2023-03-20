@@ -1,6 +1,3 @@
-import math
-
-
 class Location:
     x = None
     y = None
