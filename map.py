@@ -16,19 +16,12 @@ class Map:
     coin: Location = None
     locations = None
     map = None
-    filename = 'output.txt'
-
-    def init_file(self):
-        filepath = os.path.join(os.getcwd(), self.filename)
-        with open(filepath, 'w') as f:
-            f.write('')
 
     def __init__(self):
         self.loadJson()
         self.loadLocs()
         self.loadMap()
         self.printMap()
-        self.init_file()
 
     def loadJson(self):
         with open('map.json', 'r') as file:
@@ -62,6 +55,5 @@ class Map:
             print('*', end='')
             print()
         print('*' * (self.width + 2))
-    # create a Map object and print its properties
 
 
