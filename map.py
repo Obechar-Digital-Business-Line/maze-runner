@@ -38,7 +38,6 @@ class Map:
             self.obstacles = [Location(*loc) for loc in sorted(data['obstacles'], key=lambda x: (x[0], x[1]))]
             self.bot = Location(*data['bot'])
             self.coin = Location(*data['coin'])
-            self.obstacles = Location.sort(self.obstacles)
 
     def loadLocs(self):
         self.locations = self.obstacles.copy()
