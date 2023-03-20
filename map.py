@@ -5,7 +5,6 @@ import os
 from heapq import heappop
 from typing import List
 
-import location
 from location import Location
 
 
@@ -65,87 +64,5 @@ class Map:
             print()
         print('*' * (self.width + 2))
     # create a Map object and print its properties
-
-    def moveBot(self, loc: Location):
-        if self.map[loc.x][loc.y] == ' ' or self.map[loc.x][loc.y] == 'o':
-            self.map[loc.x][loc.y] = 'X'
-            self.map[self.bot.x][self.bot.y] = ' '
-            self.bot = loc
-            self.printMap()
-            return True
-        else:
-            print('<', self.map[loc.x][loc.y], '>')
-            return False
-            # self.loadMap()
-
-    def moveTo(self, loc: Location):
-        tx = loc.x - self.bot.x
-        ty = loc.y - self.bot.y
-
-        flagA = True
-        flagB = True
-        if tx < 0:
-            tx = -tx
-            for i in range(tx):
-                if not self.up():
-                    flagA = False
-                else:
-                    flagA = True
-        else:
-            for i in range(tx):
-                if not self.down():
-                    flagA = False
-                else:
-                    flagA = True
-        if ty < 0:
-            ty = -ty
-            for i in range(ty):
-                if not self.left():
-                    flagB = False
-                else:
-                    flagB = True
-        else:
-            for i in range(ty):
-                if not self.right():
-                    flagB = False
-                else:
-                    flagB = True
-
-        if not flagA and not flagB:
-            return False
-        return True
-
-    def left(self):
-        if self.bot.y > 0:
-            if self.moveBot(Location(self.bot.x, self.bot.y - 1)):
-                self.write('left')
-                return True
-            return False
-
-    def right(self):
-        if self.bot.y < self.height - 1:
-            if self.moveBot(Location(self.bot.x, self.bot.y + 1)):
-                self.write('right')
-                return True
-            return False
-
-    def up(self):
-        if self.bot.x > 0:
-            if self.moveBot(Location(self.bot.x - 1, self.bot.y)):
-                self.write('up')
-                return True
-            return False
-
-    def down(self):
-        if self.bot.x < self.width - 1:
-            if self.moveBot(Location(self.bot.x + 1, self.bot.y)):
-                self.write('down')
-                return True
-            return False
-
-    def write(self, a):
-        with open(self.filename, mode='a') as file:
-            file.write(a +'\n')
-
 
 
