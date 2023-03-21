@@ -57,3 +57,4 @@ class Map:
         print('*' * (self.width + 2))
 
 
+
