@@ -149,5 +149,38 @@ Step 2
 ```
 *Keywords*: **pygame**, **tkinter**
 
+### Multi-agent
+Playing alone can not be as fun as playing with friends. Let's transform our maze into a playground so everyone can joinIn this part, we will update our ,json and .txt files to enable competitive mode for multiple bots. Initially, we need to work on field `bot` in **maze_metadata.json**. Because there could be more than 1 bot, and some bots can faster than the other, we need to change the format of `bot` to a better representative version. Thus, the `bot` needs to be `bots` which is a list of dictionary of each bot like the followings:
+
+```json
+{
+    "width": 10,
+    "height": 10,
+    "obstacles": [[0, 1], [1, 1], [2, 1]],
+    "bots": [
+    {
+      "name": "could be any name",
+      "pos": [5, 7]
+    },
+    {
+      "name": "other any name",
+      "pos": [3, 3]
+    }
+  ],
+    "coin": [0, 0]
+}
+```
+The order of bots is sorted by ascending inference time (in milliseconds) which is noted in the `action.txt` like the following:
+
+```
+left 123.12
+up 50.34
+left 49.50
+down 49.45
+right 45.50
+```
+
+Finally, remember to update your UI and your algorithm to work well in multi-agent mode.
+
 ---
 We look forward to seeing not only your amzing results and a thrilling race but also your development through this very first project. Good luck!
