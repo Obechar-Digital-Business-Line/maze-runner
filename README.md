@@ -150,8 +150,11 @@ Step 2
 *Keywords*: **pygame**, **tkinter**
 
 ### Multi-agent
-Playing alone can not be as fun as playing with friends. Let's transform our maze into a playground so everyone can joinIn this part, we will update our ,json and .txt files to enable competitive mode for multiple bots. Initially, we need to work on field `bot` in **maze_metadata.json**. Because there could be more than 1 bot, and some bots can faster than the other, we need to change the format of `bot` to a better representative version. Thus, the `bot` needs to be `bots` which is a list of dictionary of each bot like the followings:
+Playing alone can not be as fun as playing with friends. Let's transform our maze into a playground so everyone can join. 
+#### Protocols
+In this part, we will update our ,json and .txt files to enable competitive mode for multiple bots. Initially, we need to work on field `bot` in **maze_metadata.json**. Because there could be more than 1 bot, and some bots can faster than the other, we need to change the format of `bot` to a better representative version. Thus, the `bot` needs to be `bots` which is a list of dictionary of each bot like the followings:
 
+**maze_metadata.json**
 ```json
 {
     "width": 10,
@@ -159,18 +162,26 @@ Playing alone can not be as fun as playing with friends. Let's transform our maz
     "obstacles": [[0, 1], [1, 1], [2, 1]],
     "bots": [
     {
-      "name": "could be any name",
-      "pos": [5, 7]
+      "name": "could be any name",  # NEW. Yeah, so now we can name our bot
+      "pos": [5, 7],
+      "status": "stop",  # NEW
+      "score": 10  # NEW
     },
     {
       "name": "other any name",
-      "pos": [3, 3]
-    }
-  ],
-    "coin": [0, 0]
+      "pos": [3, 3],
+      "status": "move",
+      "score": 4
+    }],
+    "coin": [0, 0],
+    "screen": true  # NEW
 }
 ```
-The order of bots is sorted by ascending inference time (in milliseconds) which is noted in the `action.txt` like the following:
+Here, "status" is like a green and red light for the bot, it tells which bot when to move and stop. So, **IMPORTANT** here, the `bot.py` only update their `action.txt` when all of the bots are allowed to move!!!
+
+The "screen" 's usage will be explained in the Back-end and Front-end. And for the "score", well, you know what it should be.
+
+For the `action.txt`, because each bot has different action. So now the `action.txt` should represent the bot individually by name the file by the name of the bot (Exp: conan.txt and songoku.txt). And the format should follow:
 
 ```
 left 123.12
@@ -179,8 +190,51 @@ left 49.50
 down 49.45
 right 45.50
 ```
+The value next to action is the inference time (in milliseconds) is calculated FROM the time before the bot read the map TO the time after it decides the next action.
 
-Finally, remember to update your UI and your algorithm to work well in multi-agent mode.
+#### Back-end (maze_updater.py) and Front-end (maze_displayer.py)
+*maze_updater.py* now needs to be able to read multiple *action.txt*, hence, the command line should be updated like this:
+```bash
+python maze_updater.py -i conan.txt -i songoku.txt -o maze_metadata.json
+```
+A new rule to update metadata now is prioritizing the bot which has least inference time at a step to move first, and apply this rule for the rest. 
+
+So for example, in this case:
+
+**conan.txt**
+```
+left 123.12
+```
+**songoku.txt**
+```
+up 1.00  # Yeah, of course, he's Songoku.
+```
+**maze_updater.py** should update the position of the songoku first, and then the conan.
+
+One more thing, to let **maze_updater.py** aware if the **maze_displayer.py** already displayed the new position or not, **maze_displayer.py** now will need to update the "screen" in metadata to true or false. If "screen" is True, new position is updated on the screen and now the **maze_updater.py** can update the new position of the other bots.
+
+In summary, for the above expample, a whole workflow would look like this:
+1. Bots update their action.
+2. BE read action files, set all the status of the bot to "stop" and start to update metadata in the order of inference time of each bot.
+```
+# Order of update
+songuku > conan
+```
+3. When update metadata for a bot, besides update their position, we also switch the "screen" to false.
+4. **maze_displayer.py** reads metadata and update the new screen, whereas **updater** wait until **displayer** finish by checking the "screen" in metadata. If "screen" is True, the BE now can update to the next bot.
+
+5. When all bot are already updated, switch the status of all bots to move to allow them to update their next action.
+
+**NEW RULE: BLOODY WAR**
+
+A bot can not move to an occupied slot if the slot is occupied by another bot. If the bot move to that slot, it will be killed and **updater** switch the "status" of that bot to "eliminated" and never care about that bot anymore.
+
+#### Front-end
+Besides to display multiple bot in a map (each bot should have different shape or color), now the map should also show the score of each bot on the screen. Because the bot can be eliminated, FE should display a dummy effect to eliminated bot. 
+
+#### AI
+**IMPORTANT** YOU CAN NOT STEP ON THE OCCUPIED SLOT. If you move to a slot where is occupied by other bot, you will be ELIMINATED OUT OF THE GAME!!!
+In this competition, luck is very important, but we can reduce our dependency on the luck by a good strategy. Don't just close your eyes and only move to where the coin is. Knowing where the enemy is could give you good strategy.
 
 ---
 We look forward to seeing not only your amzing results and a thrilling race but also your development through this very first project. Good luck!
