@@ -150,7 +150,7 @@ Step 2
 *Keywords*: **pygame**, **tkinter**
 
 ### Multi-agent
-Playing alone can not be as fun as playing with friends. Let's transform our maze into a playground so everyone can joinIn this part, we will update our ,json and .txt files to enable competitive mode for multiple bots. Initially, we need to work on field `bot` in **maze_metadata.json**. Because there could be more than 1 bot, and some bots can faster than the other, we need to change the format of `bot` to a better representative version. Thus, the `bot` needs to be `bots` which is a list of dictionary of each bot like the followings:
+Playing alone can not be as fun as playing with friends. Let's transform our maze into a playground so everyone can join in this part, we will update our .json and .txt files to enable competitive mode for multiple bots. Initially, we need to work on field `bot` in **maze_metadata.json**. Because there could be more than 1 bot, and some bots can faster than the other, we need to change the format of `bot` to a better representative version. Thus, the `bot` needs to be `bots` which is a list of dictionary of each bot like the followings:
 
 ```json
 {
